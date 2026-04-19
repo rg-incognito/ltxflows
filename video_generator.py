@@ -249,16 +249,16 @@ def generate_clip(image_prompt, ltx_motion_prompt, output_path, clip_index=0, ma
 
     ltx_result = generate_video_ltx(image_path, output_path, ltx_motion_prompt,
                                      clip_index=clip_index, max_retries=max_retries)
-    # generate_video_ltx returns True (old success) or (False, bool) tuple
     if ltx_result is True or (isinstance(ltx_result, tuple) and ltx_result[0]):
-        return True, True   # HF LTX success — has native audio
+        return True, True, "ltx_hf"
 
     quota_exhausted = isinstance(ltx_result, tuple) and ltx_result[1]
     if quota_exhausted:
         print("  ZeroGPU quota exhausted — trying Replicate LTX-Video")
         if generate_video_replicate(image_path, output_path, ltx_motion_prompt,
                                     clip_index=clip_index):
-            return True, False   # Replicate success — no native audio
+            return True, False, "replicate"
 
     print("  LTX failed — falling back to FFmpeg Ken Burns")
-    return generate_video_ffmpeg_fallback(image_path, output_path, clip_index=clip_index)
+    ok, has_audio = generate_video_ffmpeg_fallback(image_path, output_path, clip_index=clip_index)
+    return ok, has_audio, "ffmpeg" if ok else None

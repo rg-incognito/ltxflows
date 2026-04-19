@@ -41,6 +41,7 @@ TTS_DELAY = 0.9
 TG_TOKEN   = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TG_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 FORCE_RUN  = os.environ.get("FORCE_RUN", "false").lower() == "true"
+SHEET_ID   = os.environ.get("SHEET_ID", "")
 
 for d in [MUSIC_DIR, OUTPUT_DIR, TEMP_DIR]:
     d.mkdir(parents=True, exist_ok=True)
@@ -70,6 +71,33 @@ def tg_error(context, exc):
         f"```\n{short_tb}\n```"
     )
     tg(msg)
+
+# ─── GOOGLE SHEETS ────────────────────────────────────────────────────────────
+def log_to_sheet(row: list):
+    """Append one row to the LTX tracking sheet."""
+    if not SHEET_ID:
+        return
+    try:
+        from google.oauth2.credentials import Credentials
+        from google.auth.transport.requests import Request
+        from googleapiclient.discovery import build
+
+        creds = Credentials.from_authorized_user_file("drive_token.json", [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive",
+        ])
+        if creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        svc = build("sheets", "v4", credentials=creds, cache_discovery=False)
+        svc.spreadsheets().values().append(
+            spreadsheetId=SHEET_ID,
+            range="Sheet1!A1",
+            valueInputOption="USER_ENTERED",
+            body={"values": [row]},
+        ).execute()
+        print(f"  Sheet logged: {row[0]}")
+    except Exception as e:
+        print(f"  Sheet log failed: {e}")
 
 # ─── TRACKER ──────────────────────────────────────────────────────────────────
 TRACKER_FILE = Path("tracker.json")
@@ -534,6 +562,7 @@ def run():
 
     normalized = []
     all_have_audio = True
+    vid_sources = []
 
     for i, clip in enumerate(clip_info):
         if ckpt.past(state, f"clip_{i}_done"):
@@ -547,14 +576,17 @@ def run():
         norm_file = TEMP_DIR / f"norm_{i}.mp4"
 
         print(f"\n  Clip {i+1}: {clip['subject'][:50]}")
-        success, has_audio = generate_clip(
+        success, has_audio, vid_source = generate_clip(
             clip["image_prompt"], clip["ltx_prompt"], raw_file, clip_index=i
         )
         if not success:
             raise RuntimeError(f"Failed to generate clip {i+1}")
+        if vid_source == "replicate":
+            tg(f"💰 Replicate fallback used for clip {i+1} (~$0.01)\nHF ZeroGPU quota was exhausted.")
 
         if not has_audio:
             all_have_audio = False
+        vid_sources.append(vid_source)
 
         normalize_clip(raw_file, norm_file, i, has_ltx_audio=has_audio)
         normalized.append(str(norm_file))
@@ -563,7 +595,7 @@ def run():
                   track_id=cp.get("track_id", track_info["id"]),
                   audio_file=str(audio_file), output_file=output_path,
                   fact=fact, hook=hook, tts_text=tts_text,
-                  all_have_audio=all_have_audio)
+                  all_have_audio=all_have_audio, vid_sources=vid_sources)
 
     # ── Step 3: Merge + encode ────────────────────────────────────────────────
     print("\n[3/4] Merging & encoding final Short...")
@@ -600,6 +632,19 @@ def run():
               track_id=cp.get("track_id", track_info["id"]),
               audio_file=str(audio_file), output_file=output_path, video_id=video_id)
 
+    # ── Sheet log ────────────────────────────────────────────────────────────
+    vid_sources = cp.get("vid_sources", vid_sources)
+    source_summary = "/".join(set(vid_sources)) if vid_sources else "unknown"
+    log_to_sheet([
+        datetime.now().strftime("%Y-%m-%d %H:%M"),
+        niche,
+        hook,
+        url,
+        source_summary,
+        f"{track_info['title']} — {track_info['artist']}",
+        f"{elapsed:.0f}s",
+    ])
+
     # ── Done ─────────────────────────────────────────────────────────────────
     used_music = tracker.get("used_music", [])
     used_music.append(track_info["id"])
@@ -612,10 +657,11 @@ def run():
 
     elapsed = time.time() - start
     tg(
-        f"🎉 *Short posted!*\n"
+        f"Short posted!\n"
         f"URL: {url}\n"
         f"Niche: {niche}\n"
         f"Music: {track_info['title']}\n"
+        f"Video source: {source_summary}\n"
         f"Posts today: {len(posts_today)+1}/{POSTS_PER_DAY}\n"
         f"Total: {tracker['total_posts']}\n"
         f"Time: {elapsed:.0f}s"

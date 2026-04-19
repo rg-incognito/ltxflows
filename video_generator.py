@@ -146,37 +146,39 @@ def generate_video_replicate(image_path, output_path, motion_prompt, clip_index=
         print("  replicate not installed")
         return False
 
-    num_frames = min(int(duration * VIDEO_FPS), 257)   # LTX max 257 frames
+    # length must be one of [97,129,161,193,225,257]; 193 ≈ 8s @ 24fps
+    length_frames = 193
 
     print(f"  Replicate LTX-Video...", end="", flush=True)
     try:
-        with open(image_path, "rb") as f:
-            output = replicate.run(
-                "lightricks/ltx-video",
-                input={
-                    "prompt": motion_prompt,
-                    "image": f,
-                    "num_frames": num_frames,
-                    "frame_rate": VIDEO_FPS,
-                    "width": LTX_WIDTH,
-                    "height": LTX_HEIGHT,
-                    "guidance_scale": 3.0,
-                    "num_inference_steps": 40,
-                    "seed": SEED + clip_index,
-                }
-            )
-        url = str(output) if output else None
-        if url and url.startswith("http"):
-            data = requests.get(url, timeout=300).content
+        output = replicate.run(
+            "lightricks/ltx-video",
+            input={
+                "prompt": motion_prompt,
+                "image": Path(image_path),   # SDK auto-uploads local files
+                "length": length_frames,
+                "target_size": LTX_WIDTH,    # 576
+                "aspect_ratio": "9:16",
+                "cfg": 3,
+                "steps": 30,
+                "seed": SEED + clip_index,
+                "negative_prompt": "low quality, worst quality, deformed, distorted",
+            }
+        )
+        # output is a list of URLs
+        urls = list(output) if output else []
+        url = urls[0] if urls else None
+        if url:
+            data = requests.get(str(url), timeout=300).content
             if len(data) > 100_000:
                 Path(output_path).write_bytes(data)
                 print(f" OK ({len(data)//1024} KB)")
                 return True
             print(f" too small ({len(data)} bytes)")
         else:
-            print(f" no url: {url}")
+            print(f" no url in output")
     except Exception as e:
-        print(f" error: {str(e)[:120]}")
+        print(f" error: {str(e)[:200]}")
 
     return False
 

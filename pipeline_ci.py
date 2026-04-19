@@ -633,6 +633,7 @@ def run():
               audio_file=str(audio_file), output_file=output_path, video_id=video_id)
 
     # ── Sheet log ────────────────────────────────────────────────────────────
+    elapsed = time.time() - start
     vid_sources = cp.get("vid_sources", vid_sources)
     source_summary = "/".join(set(vid_sources)) if vid_sources else "unknown"
     log_to_sheet([

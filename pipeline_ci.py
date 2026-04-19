@@ -406,7 +406,7 @@ def _wrap(text, max_chars=28):
         lines.append(cur)
     return r"\n".join(lines)
 
-def burn_text_overlay(input_path, output_path, fact, hook, srt_file=None):
+def burn_text_overlay(input_path, output_path, fact, hook):
     """
     Burn overlays:
       TOP    — viral hook in Hinglish, gold (word-wrapped)
@@ -438,17 +438,6 @@ def burn_text_overlay(input_path, output_path, fact, hook, srt_file=None):
         f":enable='between(t,1,{MAX_DURATION})'"
     )
 
-    # Synced Hinglish captions center — smaller font, side margins
-    if srt_file and Path(srt_file).exists():
-        srt_path = str(srt_file).replace("\\", "/")
-        style = (
-            "FontName=DejaVu Sans Bold,FontSize=52,"
-            "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
-            "Outline=4,Shadow=2,Alignment=2,"
-            "MarginL=60,MarginR=60,MarginV=840,"
-            "WrapStyle=0"
-        )
-        filters.append(f"subtitles='{srt_path}':force_style='{style}'")
 
     vf = ",".join(filters)
     result = subprocess.run([
@@ -671,7 +660,7 @@ def run():
     encode_final(merged_file, audio_file, tts_file, encoded_raw, has_ltx_audio=all_have_audio)
 
     print("  Adding text overlay...")
-    burn_text_overlay(encoded_raw, output_path, fact, hook, srt_file=srt_file)
+    burn_text_overlay(encoded_raw, output_path, fact, hook)
 
     ckpt.save("encoded", clip_info=clip_info,
               track_id=cp.get("track_id", track_info["id"]),

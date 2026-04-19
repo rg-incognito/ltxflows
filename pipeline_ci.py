@@ -52,10 +52,12 @@ def tg(msg, parse_mode="Markdown"):
         print(f"[TG] {msg}")
         return
     try:
+        payload = {"chat_id": TG_CHAT_ID, "text": msg}
+        if parse_mode:
+            payload["parse_mode"] = parse_mode
         requests.post(
             f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
-            json={"chat_id": TG_CHAT_ID, "text": msg, "parse_mode": parse_mode},
-            timeout=10
+            json=payload, timeout=10
         )
     except Exception:
         pass
@@ -657,15 +659,18 @@ def run():
     cleanup.clean_temp()
 
     elapsed = time.time() - start
+    sheet_url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}" if SHEET_ID else "N/A"
     tg(
         f"Short posted!\n"
-        f"URL: {url}\n"
+        f"Video: {url}\n"
+        f"Sheet: {sheet_url}\n"
         f"Niche: {niche}\n"
         f"Music: {track_info['title']}\n"
-        f"Video source: {source_summary}\n"
+        f"Source: {source_summary}\n"
         f"Posts today: {len(posts_today)+1}/{POSTS_PER_DAY}\n"
         f"Total: {tracker['total_posts']}\n"
-        f"Time: {elapsed:.0f}s"
+        f"Time: {elapsed:.0f}s",
+        parse_mode=None
     )
     print(f"\n{'='*54}")
     print(f"  Done in {elapsed:.0f}s | Total: {tracker['total_posts']}")

@@ -118,16 +118,70 @@ def generate_video_ltx(image_path, output_path, motion_prompt, clip_index=0,
         except Exception as e:
             err = str(e)
             print(f" error: {err[:120]}")
-            if "quota" in err.lower() or "ZeroGPU" in err:
-                print("    ZeroGPU quota — waiting 60s")
-                time.sleep(60)
-            else:
-                time.sleep(30)
+            if "quota" in err.lower() or "zerogpu" in err.lower():
+                print("    ZeroGPU quota exhausted — skip retries")
+                return False, True   # quota signal: (failed, quota_exhausted)
+            time.sleep(30)
+
+    return False, False
+
+
+# ─── FALLBACK 1: REPLICATE LTX-VIDEO (paid, ~$0.01/clip) ────────────────────
+
+def generate_video_replicate(image_path, output_path, motion_prompt, clip_index=0,
+                              duration=VIDEO_DURATION):
+    """
+    LTX-Video via Replicate API. Used when HF ZeroGPU quota is exhausted.
+    Needs REPLICATE_API_TOKEN env var. Returns True on success.
+    """
+    import os
+    token = os.environ.get("REPLICATE_API_TOKEN", "")
+    if not token:
+        print("  REPLICATE_API_TOKEN not set — skipping")
+        return False
+
+    try:
+        import replicate
+    except ImportError:
+        print("  replicate not installed")
+        return False
+
+    num_frames = min(int(duration * VIDEO_FPS), 257)   # LTX max 257 frames
+
+    print(f"  Replicate LTX-Video...", end="", flush=True)
+    try:
+        with open(image_path, "rb") as f:
+            output = replicate.run(
+                "lightricks/ltx-video",
+                input={
+                    "prompt": motion_prompt,
+                    "image": f,
+                    "num_frames": num_frames,
+                    "frame_rate": VIDEO_FPS,
+                    "width": LTX_WIDTH,
+                    "height": LTX_HEIGHT,
+                    "guidance_scale": 3.0,
+                    "num_inference_steps": 40,
+                    "seed": SEED + clip_index,
+                }
+            )
+        url = str(output) if output else None
+        if url and url.startswith("http"):
+            data = requests.get(url, timeout=300).content
+            if len(data) > 100_000:
+                Path(output_path).write_bytes(data)
+                print(f" OK ({len(data)//1024} KB)")
+                return True
+            print(f" too small ({len(data)} bytes)")
+        else:
+            print(f" no url: {url}")
+    except Exception as e:
+        print(f" error: {str(e)[:120]}")
 
     return False
 
 
-# ─── FALLBACK: KEN BURNS (silent, if LTX fails) ──────────────────────────────
+# ─── FALLBACK 2: KEN BURNS (silent, last resort) ─────────────────────────────
 
 _MOTIONS = [
     ("min(zoom+0.0008,1.35)", "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)", "zoom-in"),
@@ -180,8 +234,9 @@ def generate_clip(image_prompt, ltx_motion_prompt, output_path, clip_index=0, ma
     """
     Full clip generation:
       1. Generate image via Pollinations.ai
-      2. Animate with LTX-Video 2.3 (with native audio)
-      3. Fallback to FFmpeg Ken Burns (silent) if LTX fails
+      2. Animate with LTX-Video 2.3 HF ZeroGPU (free, with native audio)
+      3. Fallback to Replicate LTX-Video (paid ~$0.01, no audio)
+      4. Fallback to FFmpeg Ken Burns (free, silent)
 
     Returns (success: bool, has_audio: bool)
     """
@@ -192,9 +247,18 @@ def generate_clip(image_prompt, ltx_motion_prompt, output_path, clip_index=0, ma
     if not generate_image(image_prompt, image_path, seed=SEED + clip_index):
         return False, False
 
-    if generate_video_ltx(image_path, output_path, ltx_motion_prompt,
-                           clip_index=clip_index, max_retries=max_retries):
-        return True, True   # LTX success — has native audio
+    ltx_result = generate_video_ltx(image_path, output_path, ltx_motion_prompt,
+                                     clip_index=clip_index, max_retries=max_retries)
+    # generate_video_ltx returns True (old success) or (False, bool) tuple
+    if ltx_result is True or (isinstance(ltx_result, tuple) and ltx_result[0]):
+        return True, True   # HF LTX success — has native audio
+
+    quota_exhausted = isinstance(ltx_result, tuple) and ltx_result[1]
+    if quota_exhausted:
+        print("  ZeroGPU quota exhausted — trying Replicate LTX-Video")
+        if generate_video_replicate(image_path, output_path, ltx_motion_prompt,
+                                    clip_index=clip_index):
+            return True, False   # Replicate success — no native audio
 
     print("  LTX failed — falling back to FFmpeg Ken Burns")
     return generate_video_ffmpeg_fallback(image_path, output_path, clip_index=clip_index)

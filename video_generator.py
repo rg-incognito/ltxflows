@@ -149,34 +149,69 @@ def generate_video_replicate(image_path, output_path, motion_prompt, clip_index=
     # length must be one of [97,129,161,193,225,257]; 193 ≈ 8s @ 24fps
     length_frames = 193
 
+    REPLICATE_VERSION = "8c47da666861d081eeb4d1261853087de23923a268a69b63febdf5dc1dee08e4"
+
     print(f"  Replicate LTX-Video...", end="", flush=True)
     try:
-        output = replicate.run(
-            "lightricks/ltx-video",
-            input={
-                "prompt": motion_prompt,
-                "image": Path(image_path),   # SDK auto-uploads local files
-                "length": length_frames,
-                "target_size": LTX_WIDTH,    # 576
-                "aspect_ratio": "9:16",
-                "cfg": 3,
-                "steps": 30,
-                "seed": SEED + clip_index,
-                "negative_prompt": "low quality, worst quality, deformed, distorted",
-            }
-        )
-        # output is a list of URLs
-        urls = list(output) if output else []
-        url = urls[0] if urls else None
-        if url:
-            data = requests.get(str(url), timeout=300).content
-            if len(data) > 100_000:
-                Path(output_path).write_bytes(data)
-                print(f" OK ({len(data)//1024} KB)")
-                return True
-            print(f" too small ({len(data)} bytes)")
-        else:
-            print(f" no url in output")
+        # Upload image to Replicate Files API
+        with open(image_path, "rb") as f:
+            up = requests.post(
+                "https://api.replicate.com/v1/files",
+                headers={"Authorization": f"Bearer {token}"},
+                files={"content": (Path(image_path).name, f, "image/jpeg")},
+                timeout=60
+            )
+        if up.status_code not in (200, 201):
+            print(f" upload failed ({up.status_code})")
+            return False
+        image_url = up.json()["urls"]["get"]
+
+        # Create prediction via REST API
+        pred = requests.post(
+            "https://api.replicate.com/v1/predictions",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={
+                "version": REPLICATE_VERSION,
+                "input": {
+                    "prompt": motion_prompt,
+                    "image": image_url,
+                    "length": length_frames,
+                    "target_size": LTX_WIDTH,
+                    "aspect_ratio": "9:16",
+                    "cfg": 3,
+                    "steps": 30,
+                    "seed": SEED + clip_index,
+                    "negative_prompt": "low quality, worst quality, deformed, distorted",
+                }
+            },
+            timeout=30
+        ).json()
+
+        pred_url = pred.get("urls", {}).get("get")
+        if not pred_url:
+            print(f" no pred url: {pred.get('error','?')}")
+            return False
+
+        # Poll for completion (max 10 min)
+        for _ in range(120):
+            time.sleep(5)
+            r = requests.get(pred_url,
+                headers={"Authorization": f"Bearer {token}"}, timeout=30).json()
+            status = r.get("status")
+            if status == "succeeded":
+                output_urls = r.get("output", [])
+                url = output_urls[0] if output_urls else None
+                if url:
+                    data = requests.get(url, timeout=300).content
+                    if len(data) > 100_000:
+                        Path(output_path).write_bytes(data)
+                        print(f" OK ({len(data)//1024} KB)")
+                        return True
+                print(f" too small or no url")
+                return False
+            elif status in ("failed", "canceled"):
+                print(f" {status}: {r.get('error','?')}")
+                return False
     except Exception as e:
         print(f" error: {str(e)[:200]}")
 

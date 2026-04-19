@@ -38,10 +38,13 @@ CLIP_DURATION   = 8      # seconds — LTX generates up to 10s
 TTS_VOICE = "hi-IN-SwaraNeural"
 TTS_DELAY = 0.9
 
-TG_TOKEN   = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-TG_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
-FORCE_RUN  = os.environ.get("FORCE_RUN", "false").lower() == "true"
-SHEET_ID   = os.environ.get("SHEET_ID", "")
+TG_TOKEN       = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TG_CHAT_ID     = os.environ.get("TELEGRAM_CHAT_ID", "")
+FORCE_RUN      = os.environ.get("FORCE_RUN", "false").lower() == "true"
+SHEET_ID       = os.environ.get("SHEET_ID", "")
+SARVAM_API_KEY = os.environ.get("SARVAM_API_KEY", "")
+
+SARVAM_CREDIT_WARN = 25000   # alert when total chars used exceeds this (~75% of free ₹100)
 
 for d in [MUSIC_DIR, OUTPUT_DIR, TEMP_DIR]:
     d.mkdir(parents=True, exist_ok=True)
@@ -142,40 +145,75 @@ def select_music(tracker):
     raise RuntimeError(f"No music files in {MUSIC_DIR}/. Files: {list(MUSIC_DIR.glob('*.mp3'))}")
 
 # ─── TTS ──────────────────────────────────────────────────────────────────────
-def generate_tts(tts_text, output_path):
+def generate_tts(tts_text, output_path, tracker=None):
     """
-    Hindi TTS via edge-tts stream(). Captures WordBoundary events for synced captions.
-    Returns (audio_path, word_timings) or (None, []).
+    Hindi TTS via Sarvam AI (bulbul:v2, meera voice).
+    Falls back to edge-tts if Sarvam key missing.
+    Returns (audio_path, word_timings=[]) — Sarvam has no word timings.
     """
-    try:
-        import asyncio
-        import edge_tts
+    if SARVAM_API_KEY:
+        try:
+            resp = requests.post(
+                "https://api.sarvam.ai/text-to-speech",
+                headers={"api-subscription-key": SARVAM_API_KEY, "Content-Type": "application/json"},
+                json={
+                    "inputs": [tts_text],
+                    "target_language_code": "hi-IN",
+                    "speaker": "meera",
+                    "pitch": 0,
+                    "pace": 1.1,
+                    "loudness": 1.5,
+                    "speech_sample_rate": 22050,
+                    "enable_preprocessing": True,
+                    "model": "bulbul:v2",
+                },
+                timeout=60
+            )
+            if resp.status_code == 200:
+                import base64
+                audio_b64 = resp.json()["audios"][0]
+                audio_bytes = base64.b64decode(audio_b64)
+                Path(output_path).write_bytes(audio_bytes)
+                size_kb = len(audio_bytes) // 1024
+                print(f"  TTS OK (Sarvam) — {size_kb} KB")
 
+                # Track chars used and alert if nearing limit
+                if tracker is not None:
+                    used = tracker.get("sarvam_chars_used", 0) + len(tts_text)
+                    tracker["sarvam_chars_used"] = used
+                    if used > SARVAM_CREDIT_WARN:
+                        tg(f"Sarvam TTS credit warning!\n{used:,} chars used — free credits (~33K chars) nearly exhausted.\nAdd credits at sarvam.ai", parse_mode=None)
+
+                return Path(output_path), []
+            else:
+                print(f"  Sarvam TTS failed ({resp.status_code}): {resp.text[:200]}")
+        except Exception as e:
+            print(f"  Sarvam TTS error: {e}")
+
+    # Fallback: edge-tts
+    print("  Falling back to edge-tts...")
+    try:
+        import asyncio, edge_tts
         words = []
 
         async def _synth():
             comm = edge_tts.Communicate(tts_text, voice=TTS_VOICE, rate="+8%")
-            audio_buf = bytearray()
+            buf = bytearray()
             async for chunk in comm.stream():
-                if chunk["type"] == "audio":
-                    audio_buf += chunk["data"]
+                if chunk["type"] == "audio": buf += chunk["data"]
                 elif chunk["type"] == "WordBoundary":
-                    words.append({
-                        "word":  chunk["text"],
+                    words.append({"word": chunk["text"],
                         "start": chunk["offset"] / 10_000_000,
-                        "end":   (chunk["offset"] + chunk["duration"]) / 10_000_000,
-                    })
-            Path(output_path).write_bytes(bytes(audio_buf))
+                        "end":   (chunk["offset"] + chunk["duration"]) / 10_000_000})
+            Path(output_path).write_bytes(bytes(buf))
 
         asyncio.run(_synth())
-
         if Path(output_path).exists() and Path(output_path).stat().st_size > 0:
-            print(f"  TTS OK — {Path(output_path).stat().st_size//1024} KB, {len(words)} word events")
+            print(f"  TTS OK (edge-tts) — {Path(output_path).stat().st_size//1024} KB, {len(words)} word events")
             return Path(output_path), words
-        return None, []
     except Exception as e:
         print(f"  TTS failed: {e}")
-        return None, []
+    return None, []
 
 
 def build_srt(words, offset=TTS_DELAY, words_per_phrase=4):
@@ -544,7 +582,7 @@ def run():
         print(f"  Hook  : {hook}")
         print(f"  Generating Hinglish TTS ({len(tts_text.split())} words)...")
 
-        tts_file, word_timings = generate_tts(tts_text, TEMP_DIR / "narration.mp3")
+        tts_file, word_timings = generate_tts(tts_text, TEMP_DIR / "narration.mp3", tracker)
 
         srt_file = None
         if tts_file and word_timings:
@@ -567,7 +605,7 @@ def run():
         tts_text = cp.get("tts_text", "Kya aap jaante hain? Duniya mein bahut kuch aisa hai jo aapne kabhi suna hi nahi.")
         track_info, audio_file = select_music(tracker)
         audio_file = Path(cp["audio_file"])
-        tts_file, word_timings = generate_tts(tts_text, TEMP_DIR / "narration.mp3")
+        tts_file, word_timings = generate_tts(tts_text, TEMP_DIR / "narration.mp3", tracker)
         srt_file = None
         if tts_file and word_timings:
             srt_content = build_srt(word_timings)

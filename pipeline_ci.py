@@ -354,44 +354,61 @@ FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 def _esc(text):
     return text.replace("'", "\u2019").replace(":", r"\:").replace("\\", r"\\")
 
+def _wrap(text, max_chars=28):
+    """Split text into lines of max_chars, break at word boundaries."""
+    words = text.split()
+    lines, cur = [], ""
+    for w in words:
+        if cur and len(cur) + 1 + len(w) > max_chars:
+            lines.append(cur)
+            cur = w
+        else:
+            cur = (cur + " " + w).strip()
+    if cur:
+        lines.append(cur)
+    return r"\n".join(lines)
+
 def burn_text_overlay(input_path, output_path, fact, hook, srt_file=None):
     """
     Burn overlays:
-      TOP    — viral hook in Hinglish, gold
+      TOP    — viral hook in Hinglish, gold (word-wrapped)
       CENTER — synced Hinglish captions from SRT (phrase by phrase)
-      BOTTOM — fact line, white
+      BOTTOM — fact line, white (word-wrapped)
     """
     print("  Burning text overlay...", end="", flush=True)
     filters = []
 
-    # Hook at top
+    # Hook at top — wrapped, smaller font
+    hook_wrapped = _wrap(hook.upper(), max_chars=26)
     filters.append(
         f"drawtext=fontfile='{FONT}'"
-        f":text='{_esc(hook.upper())}'"
-        f":fontsize=44:fontcolor=0xFFD700"
+        f":text='{_esc(hook_wrapped)}'"
+        f":fontsize=38:fontcolor=0xFFD700"
         f":borderw=3:bordercolor=black"
-        f":x=(w-text_w)/2:y=100"
+        f":x=(w-text_w)/2:y=80"
         f":enable='between(t,0.5,{MAX_DURATION})'"
     )
 
-    # Fact at bottom
-    short_fact = fact[:55] + "..." if len(fact) > 55 else fact
+    # Fact at bottom — wrapped, smaller font
+    fact_wrapped = _wrap(fact[:80], max_chars=30)
     filters.append(
         f"drawtext=fontfile='{FONT}'"
-        f":text='{_esc(short_fact)}'"
-        f":fontsize=36:fontcolor=white"
+        f":text='{_esc(fact_wrapped)}'"
+        f":fontsize=32:fontcolor=white"
         f":borderw=3:bordercolor=black"
-        f":x=(w-text_w)/2:y=h-280"
+        f":x=(w-text_w)/2:y=h-320"
         f":enable='between(t,1,{MAX_DURATION})'"
     )
 
-    # Synced Hinglish captions center
+    # Synced Hinglish captions center — smaller font, side margins
     if srt_file and Path(srt_file).exists():
         srt_path = str(srt_file).replace("\\", "/")
         style = (
-            "FontName=DejaVu Sans Bold,FontSize=72,"
+            "FontName=DejaVu Sans Bold,FontSize=52,"
             "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
-            "Outline=4,Shadow=2,Alignment=2,MarginV=840"
+            "Outline=4,Shadow=2,Alignment=2,"
+            "MarginL=60,MarginR=60,MarginV=840,"
+            "WrapStyle=0"
         )
         filters.append(f"subtitles='{srt_path}':force_style='{style}'")
 

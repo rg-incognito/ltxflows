@@ -1,0 +1,344 @@
+{
+  "tracks": [
+    {
+      "id": 1,
+      "title": "Fade",
+      "artist": "Alan Walker",
+      "vibe": "edm-chill",
+      "youtube_id": "D9syciL3Xsg",
+      "bpm": 90,
+      "tags": [
+        "edm",
+        "chill",
+        "scenic",
+        "smooth",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 2,
+      "title": "Spectre",
+      "artist": "Alan Walker",
+      "vibe": "edm-epic",
+      "youtube_id": "BSDPQ1uP7GI",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "epic",
+        "speed",
+        "bike",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 3,
+      "title": "Cartoon - On & On",
+      "artist": "Cartoon ft. Daniel Levi",
+      "vibe": "edm-uplifting",
+      "youtube_id": "K4DyBUG242c",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "uplifting",
+        "feel-good",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 4,
+      "title": "Elektronomia - Sky High",
+      "artist": "Elektronomia",
+      "vibe": "edm-speed",
+      "youtube_id": "TW9d8vYrVFQ",
+      "bpm": 138,
+      "tags": [
+        "edm",
+        "speed",
+        "hype",
+        "bike",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 5,
+      "title": "Jim Yosef - Link",
+      "artist": "Jim Yosef",
+      "vibe": "edm-energetic",
+      "youtube_id": "9iHM6X6uUH8",
+      "bpm": 130,
+      "tags": [
+        "edm",
+        "energetic",
+        "speed",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 6,
+      "title": "Warriyo - Mortals",
+      "artist": "Warriyo ft. Laura Brehm",
+      "vibe": "dubstep-epic",
+      "youtube_id": "yJg-Y5byMMw",
+      "bpm": 150,
+      "tags": [
+        "dubstep",
+        "epic",
+        "intense",
+        "bike",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 7,
+      "title": "Distrion & Alex Skrindo - Entropy",
+      "artist": "Distrion & Alex Skrindo",
+      "vibe": "edm-aggressive",
+      "youtube_id": "iaKgF1Vf5bQ",
+      "bpm": 140,
+      "tags": [
+        "edm",
+        "aggressive",
+        "speed",
+        "bike",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 8,
+      "title": "Tobu - Colors",
+      "artist": "Tobu",
+      "vibe": "edm-happy",
+      "youtube_id": "eyLml-zzXzw",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "happy",
+        "vibrant",
+        "fun",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 9,
+      "title": "Different Heaven - Nekozilla",
+      "artist": "Different Heaven",
+      "vibe": "edm-hyper",
+      "youtube_id": "6FNHe3kf8_s",
+      "bpm": 175,
+      "tags": [
+        "edm",
+        "hyper",
+        "aggressive",
+        "speed",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 10,
+      "title": "Itro & Tobu - Cloud 9",
+      "artist": "Itro & Tobu",
+      "vibe": "edm-feel-good",
+      "youtube_id": "FZa2yA7r-T0",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "feel-good",
+        "chill",
+        "scenic",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 11,
+      "title": "Elektronomia - Limitless",
+      "artist": "Elektronomia",
+      "vibe": "edm-powerful",
+      "youtube_id": "cNcy3J4x62M",
+      "bpm": 138,
+      "tags": [
+        "edm",
+        "powerful",
+        "hype",
+        "bike",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 12,
+      "title": "Defqwop - Heart Afire",
+      "artist": "Defqwop ft. Strix",
+      "vibe": "edm-intense",
+      "youtube_id": "S7zZXGxy5vg",
+      "bpm": 145,
+      "tags": [
+        "edm",
+        "intense",
+        "dramatic",
+        "bike",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 13,
+      "title": "JPB - High",
+      "artist": "JPB ft. Aleesia",
+      "vibe": "edm-motivational",
+      "youtube_id": "Tv6WImqSuxA",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "motivational",
+        "uplifting",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 14,
+      "title": "Lost Sky - Dreams",
+      "artist": "Lost Sky ft. Sara Kay",
+      "vibe": "edm-emotional",
+      "youtube_id": "L7kF4MXXCoA",
+      "bpm": 100,
+      "tags": [
+        "edm",
+        "emotional",
+        "scenic",
+        "chill",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 15,
+      "title": "Syn Cole - Feel Good",
+      "artist": "Syn Cole",
+      "vibe": "edm-vibrant",
+      "youtube_id": "q1ULJ92aldE",
+      "bpm": 130,
+      "tags": [
+        "edm",
+        "vibrant",
+        "feel-good",
+        "fun",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 16,
+      "title": "Ship Wrek & Zookeepers - Ark",
+      "artist": "Ship Wrek & Zookeepers",
+      "vibe": "edm-drop",
+      "youtube_id": "8xlDwukxjnA",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "drop",
+        "hype",
+        "speed",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 17,
+      "title": "Elektronomia - Summersong",
+      "artist": "Elektronomia",
+      "vibe": "edm-summer",
+      "youtube_id": "HoCw_gaCHXE",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "summer",
+        "uplifting",
+        "fun",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 18,
+      "title": "Tobu & Itro - Sunburst",
+      "artist": "Tobu & Itro",
+      "vibe": "edm-sunrise",
+      "youtube_id": "1-0-4HqyvXE",
+      "bpm": 128,
+      "tags": [
+        "edm",
+        "sunrise",
+        "scenic",
+        "morning-ride",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 19,
+      "title": "Prismo - Weakness",
+      "artist": "Prismo",
+      "vibe": "edm-dark",
+      "youtube_id": "SvRFNNbxuAk",
+      "bpm": 140,
+      "tags": [
+        "edm",
+        "dark",
+        "intense",
+        "night-ride",
+        "NCS"
+      ],
+      "source": "NCS"
+    },
+    {
+      "id": 20,
+      "title": "Egzod & Maestro Chives - Royalty",
+      "artist": "Egzod & Maestro Chives ft. Neoni",
+      "vibe": "edm-anthem",
+      "youtube_id": "lW9ep22YmlM",
+      "bpm": 140,
+      "tags": [
+        "edm",
+        "anthem",
+        "powerful",
+        "hype",
+        "bike",
+        "NCS"
+      ],
+      "source": "NCS"
+    }
+  ],
+  "selection_rules": {
+    "preferred_for_speed_shots": [
+      "edm-speed",
+      "edm-aggressive",
+      "dubstep-epic",
+      "edm-hyper",
+      "edm-drop"
+    ],
+    "preferred_for_scenic": [
+      "edm-chill",
+      "edm-emotional",
+      "edm-feel-good",
+      "edm-sunrise"
+    ],
+    "preferred_for_trendy": [
+      "edm-epic",
+      "edm-uplifting",
+      "edm-anthem",
+      "edm-powerful"
+    ],
+    "max_repeat_interval": 5
+  }
+}

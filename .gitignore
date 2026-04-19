@@ -1,0 +1,10 @@
+drive_token.json
+yt_token.json
+yt_client_secret.json
+output/
+logs/
+__pycache__/
+*.pyc
+.env
+body.json
+test_ltx.mp4

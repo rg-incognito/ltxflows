@@ -182,7 +182,7 @@ def generate_tts(tts_text, output_path, tracker=None):
                     used = tracker.get("sarvam_chars_used", 0) + len(tts_text)
                     tracker["sarvam_chars_used"] = used
                     if used > SARVAM_CREDIT_WARN:
-                        tg(f"Sarvam TTS credit warning!\n{used:,} chars used — free credits (~33K chars) nearly exhausted.\nAdd credits at sarvam.ai", parse_mode=None)
+                        tg(f"Sarvam TTS credit warning!\n{used:,} chars used — free credits (~33K chars) nearly exhausted.\nCreate a new account at sarvam.ai and update the SARVAM_API_KEY secret in ltxflows repo.", parse_mode=None)
 
                 return Path(output_path), []
             else:

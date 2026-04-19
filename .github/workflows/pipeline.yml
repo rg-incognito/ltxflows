@@ -1,4 +1,4 @@
-name: LTX Hindi Shorts Pipeline
+name: LTX Hindi Shorts Pipeline v2
 
 on:
   schedule:

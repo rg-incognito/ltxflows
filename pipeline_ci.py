@@ -32,10 +32,10 @@ POSTS_PER_DAY   = 6
 MUSIC_VOLUME    = 0.08   # background music — very low, LTX audio is primary
 LTX_AUDIO_VOL   = 0.45  # LTX native ASMR audio
 TTS_VOLUME      = 1.2    # Hindi narration at full
-MAX_DURATION    = 59
-CLIP_DURATION   = 8      # seconds — LTX generates up to 10s
+MAX_DURATION    = 30
+CLIP_DURATION   = 10     # seconds — LTX max is 10s
 
-TTS_VOICE = "hi-IN-SwaraNeural"
+TTS_VOICE = "hi-IN-NeerjaExpressiveNeural"
 TTS_DELAY = 0.9
 
 TG_TOKEN       = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -159,7 +159,7 @@ def generate_tts(tts_text, output_path, tracker=None):
                 json={
                     "inputs": [tts_text],
                     "target_language_code": "hi-IN",
-                    "speaker": "meera",
+                    "speaker": "kalpana",
                     "pitch": 0,
                     "pace": 1.1,
                     "loudness": 1.5,
@@ -553,8 +553,12 @@ def run():
         print("\n[1/4] Generating prompts & TTS...")
         niche = random.choice(NICHES)
         clip_info = []
+        shuffled_niches = random.sample(NICHES, min(CLIPS_PER_SHORT, len(NICHES)))
+        # Pad if CLIPS_PER_SHORT > number of niches
+        while len(shuffled_niches) < CLIPS_PER_SHORT:
+            shuffled_niches.append(random.choice(NICHES))
         for i in range(CLIPS_PER_SHORT):
-            img_prompt, ltx_prompt, clip_niche = generate_prompt(niche)
+            img_prompt, ltx_prompt, clip_niche = generate_prompt(shuffled_niches[i])
             clip_info.append({
                 "niche": clip_niche,
                 "image_prompt": img_prompt,
@@ -656,11 +660,7 @@ def run():
                   audio_file=str(audio_file), output_file=output_path,
                   all_have_audio=all_have_audio)
 
-    encoded_raw = str(OUTPUT_DIR / f"short_raw_{timestamp}.mp4")
-    encode_final(merged_file, audio_file, tts_file, encoded_raw, has_ltx_audio=all_have_audio)
-
-    print("  Adding text overlay...")
-    burn_text_overlay(encoded_raw, output_path, fact, hook)
+    encode_final(merged_file, audio_file, tts_file, output_path, has_ltx_audio=all_have_audio)
 
     ckpt.save("encoded", clip_info=clip_info,
               track_id=cp.get("track_id", track_info["id"]),

@@ -5,91 +5,91 @@ Everything is in Hinglish for maximum engagement with Indian audience.
 
 import random
 
-# (fact_screen, hook, tts_text ~60 words Hinglish)
+# (fact_screen, hook, tts_text ~55 words Hinglish — punchy, dramatic, viral)
 FACTS = {
     "liquid": [
         (
-            "Shahad kabhi kharab nahi hota — 3000 saal purana bhi kha sakte ho!",
-            "3000 saal purana shahad — aaj bhi fresh!",
-            "Yaar suno, shahad kabhi expire nahi hota. Egyptian tombs mein 3000 saal purana shahad mila aur scientists ne taste kiya — bilkul fresh tha! Kyun? Kyunki shahad mein itna sugar hota hai aur itni kam paani ki koi bhi bacteria survive nahi kar sakta. Nature ka sabse perfect preservative. Aaj jo shahad kharida, wo hazaaron saal baad bhi kha sakte hain. Nature is truly incredible. Share karo yaar!"
+            "Shahad 3000 saal baad bhi fresh rehta hai — Egyptian tombs mein mila aur scientists ne khaya!",
+            "3000 saal purana khana khaya scientists ne — aur wo theek rahe!",
+            "Ruko ek second. Scientists ne Egyptian pyramid se 3000 saal purana shahad nikala — aur chakh ke dekha. Bilkul fresh tha. Kharab nahi hua tha. Ek bhi bacteria nahi bacha tha andar. Kyunki shahad mein itna sugar hai ki koi bhi microbe ek minute bhi nahi jeeta. Yeh nature ka immortal food hai. Ghar mein rakha shahad? Wo bhi kabhi expire nahi hoga — kabhi nahi!"
         ),
         (
-            "Paani ek saath solid, liquid aur gas — Teen phases ek saath possible hai!",
-            "Paani ka triple point — science ka sabse bada magic!",
-            "Yeh sunke dimag ghoom jayega. Paani ek hi waqt mein barf bhi ban sakta hai, paani bhi reh sakta hai, aur bhaap bhi — ek saath teeno! Isko Triple Point kehte hain. Sirf 0.01 degree Celsius aur 611 Pascal pressure par yeh possible hai. Scientists ne lab mein yeh achieve kiya hai. Physics itni wild hai bhai. Aisa kuch nature mein bhi hota hai. Comment mein batao — kya yeh believe karte ho?"
+            "Paani ek saath barf bhi, liquid bhi, aur bhaap bhi hota hai — EK HI WAQT MEIN!",
+            "Ek cheez jo ek saath teen jagah hoti hai — yeh magic nahi, science hai!",
+            "Yeh sunke believe nahi hoga. Paani — sirf paani — ek hi waqt mein solid, liquid, aur gas teen forms mein exist kar sakta hai. Isko Triple Point kehte hain. Ek specific temperature, ek specific pressure — aur paani teeno phases mein ek saath aa jaata hai. Scientists ne lab mein apni aankhon se dekha hai. Agar yeh real nahi lagta — Google karo Triple Point of water. Mind blown guarantee hai!"
         ),
         (
-            "Samundar ka paani itna bhari hai ki usme steel bhi tair sakta hai!",
-            "Steel ka jahaj paani mein kyun dubta nahi? Science sunoge?",
-            "Aik sawaal — loha paani mein doob jaata hai toh itna bada jahaz kaise tairta hai? Kyunki jahaz ki shape aisi hoti hai ki wo apne weight se zyada paani hatata hai. Archimedes principle! 3000 saal pehle ek Greek scientist ne nahaate waqt yeh discover kiya aur 'Eureka' chillaya. Woh nanga bahar bhaag gaya khushi mein. Science ka sabse funny discovery moment. Like karo yaar!"
+            "200 tonne ka jahaz paani mein isliye tairta hai — kyunki shape hi sab kuch hai!",
+            "Loha doobta hai — toh jahaz kyun nahi? Answer sunke reh jaoge!",
+            "Ek sawaal jo school mein kisi ne jawab nahi diya. Loha paani mein doob jaata hai. Toh 200,000 tonne ka jahaz kyun nahi doobta? Kyunki jahaz ki shape itni hoti hai ki wo apne weight se zyada paani hatata hai bahar. Yeh Archimedes principle hai — 2200 saal purana! Aur pata hai usne yeh kab discover kiya? Nahaate waqt. Nanga ghoom gaya tha khushi mein. Science is wild!"
         ),
     ],
     "sand": [
         (
-            "Dharti ke beaches ki ret ke daane — Universe ke taaron se bhi zyada hain!",
-            "Ret ke daane ya tare — kaunse zyada hain? Answer sunoge?",
-            "Ek kaam karo — imagine karo duniya ke saare beaches ka har ek ret ka daana count karo. That is 7.5 quintillion grains. Ab suno — Universe mein itne bhi tare nahi hain! Haan, Universe mein stars se zyada ret ke daane hain sirf Earth ke beaches par. Yeh number itna bada hai ki human brain process hi nahi kar sakta. Hum kitne chote hain is universe mein. Comment mein batao — kaisa feel hua?"
+            "Sirf Earth ke beaches ki ret ke daane — Poore Universe ke taaron se zyada hain!",
+            "Ret ke daane stars se zyada? Yeh number sunke dimag ghoom jayega!",
+            "Ek second ke liye ruko. Duniya ke saare beaches ki ret ke daane count karo — 7.5 quintillion grains hain. Ab poore Universe mein stars count karo — wo kam hain! Haan. Earth ke ek planet ki ret — pure Universe ke stars se zyada. Yeh number itna bada hai ki human brain samajh hi nahi sakta. Hum ek choti si ret ki duniya mein kitni badi soch lete hain apni."
         ),
         (
-            "Quicksand mein poora dub nahi sakte — Movies ne jhooth bola hai!",
-            "Quicksand ka sach — Hollywood ka sabse bada jhooth!",
-            "Hollywood ne humein baar baar bewaqoof banaya hai. Quicksand mein poora dub nahi sakte — kyunki human body quicksand se kam dense hoti hai. Maximum waist tak phase sakte ho. Lekin problem yeh hai ki nikalna bahut mushkil hota hai. Slow movements karo, peeche jhuko, aur धीरे धीरे pair nikalo. Movies mein jo dikhate hain woh complete fiction hai. Yeh life-saving information hai — share karo!"
+            "Quicksand mein poora dub nahi sakte — Hollywood ne 50 saal jhooth bolaya!",
+            "Quicksand ka sach — yeh movie ka sabse bada jhooth tha!",
+            "Hollywood movies mein jo quicksand dekha — bilkul fake tha. Human body quicksand se halki hoti hai — poora dub nahi sakte. Waist tak jaoge maximum. Aur nikalna? Slow slow movements karo, peeche jhuko, ek ek pair dhire se nikalo. Panic mat karo. Yeh life-saving information hai jo kisi ne nahi bataya. Ek share se kisi ki jaan bach sakti hai — sach mein."
         ),
         (
-            "Kuch deserts mein ret ke dune gaana gaate hain — Yeh sach hai!",
-            "Singing dunes — ret ka sangeet sunna chahoge?",
-            "Yeh bahut magical lagega lekin yeh sach hai. Morocco, China aur California ke kuch deserts mein ret ke dune actual music produce karte hain. Hawa chalti hai toh ret ke daane vibrate karte hain aur ek deep booming awaaz aati hai — bilkul jaise koi bass guitar baja raha ho. Scientists ne discover kiya ki specific grain size aur shape yeh sound create karta hai. Nature khud ek musician hai bhai. Follow karo roz aisi facts ke liye!"
+            "Kuch deserts mein ret ke teelay khud gaana gaate hain — Scientists ne record kiya!",
+            "Ret gaana gaati hai — desert mein actual music aata hai, sach mein!",
+            "Yeh jaadu nahi hai. Morocco, China aur California ke deserts mein ret ke dune actual sound produce karte hain — ek deep booming music, jaise bass guitar baj raha ho. Hawa chalti hai, ret ke daane ek specific tarike se vibrate karte hain, aur music nikalta hai. Scientists ne microphones se record kiya hai. Nature itna beautiful artist hai ki hum sirf sochte reh jaate hain — kya yeh real hai?"
         ),
     ],
     "geometric": [
         (
-            "Honeycomb ka hexagon — Nature ka sabse perfect engineering hai!",
-            "Bees engineers hain — Hexagon proof hai!",
-            "Bees ko kisi engineering college nahi bheja lekin unhone nature ka most efficient shape discover kiya — Hexagon. Is shape mein minimum wax lagti hai aur maximum honey store hoti hai. Agar circles use karte toh 8 percent zyada wax lagti. Agar squares use karte toh gaps rehte. Sirf hexagon perfect hai — mathematically proven. 30 million saal pehle bees ne yeh solve kiya jab humans exist hi nahi karte the. Genius insects hain bhai!"
+            "Madhumakkhi ne hexagon choose kiya — koi bhi aur shape 8% zyada wax waste karti!",
+            "Bees ne wo solve kiya jo mathematicians ne sadiyon mein solve kiya!",
+            "Kisi ne bees ko engineering nahi sikhaya. Phir bhi unhone wo shape choose ki jo mathematically sabse perfect hai — hexagon. Circles use karte toh gaps rehte. Squares use karte toh 8% zyada wax lagti. Sirf hexagon mein zero waste, maximum storage. Aur bees yeh 30 million saal se kar rahi hain — jab humans ka koi naama nishaan nahi tha. Nature ka IQ humse bahut zyada hai."
         ),
         (
-            "Fibonacci sequence — 1,1,2,3,5,8 — Yeh Universe ka secret code hai!",
-            "Universe ka ek hi code hai — aur wo bahut simple hai!",
-            "Fibonacci sequence sunno — 1, 1, 2, 3, 5, 8, 13, 21 — har number pichle do ka sum. Ab yeh crazy hai — yeh sequence sunflower ke seeds mein hoti hai, nautilus shell ke spiral mein, banana ke sections mein, pine cone mein, aur galaxy ke arms mein bhi! Nature baar baar yahi pattern use karti hai kyunki yeh mathematically most efficient growth pattern hai. Koi designer nahi, sirf pure mathematics. Universe ek mathematical poem hai bhai!"
+            "1,1,2,3,5,8 — Yeh sequence sunflower mein hai, galaxies mein hai, tumhare chehere mein bhi hai!",
+            "Universe ka ek secret code hai — aur wo hamesha se tumhare saamne tha!",
+            "Fibonacci sequence — 1, 1, 2, 3, 5, 8, 13. Har number pichle do ka sum. Simple lagta hai na? Ab sunno — yeh pattern sunflower ke seeds mein hai. Nautilus shell mein hai. Pine cone mein hai. Aur Milky Way galaxy ke spiral arms mein bhi. Kisi ne design nahi kiya — nature khud is code ko repeat karti rehti hai. Humara chehra bhi isi ratio mein hota hai. We are the universe."
         ),
         (
-            "Snowflake ka har crystal alag hota hai — 2 snowflakes kabhi same nahi!",
-            "Duniya mein koi bhi 2 snowflakes same nahi hote — ye sach hai!",
-            "Is duniya mein abhi tak ek bhi aisa snowflake nahi mila jo dusre se bilkul same ho. Har ek crystal alag hota hai. Kyun? Kyunki baraf ka crystal banate waqt hazaaron steps hote hain — temperature, humidity, pressure — har step slightly alag hota hai. Mathematically possible combinations itne hain ki same snowflake banana practically impossible hai. Is duniya mein aap bhi unique ho exactly isi tarah. Deep hai na? Share karo!"
+            "Abhi tak do bhi same snowflakes nahi mile — har ek crystal is duniya mein unique hai!",
+            "Duniya mein koi bhi do snowflakes same nahi — exactly tumhari tarah!",
+            "Har snowflake ek ek alag hota hai. Ek bhi same nahi. Kyunki baraf ka crystal bante waqt temperature, humidity, pressure — har microsecond alag hota hai. Possible combinations itne hain ki same snowflake banana mathematically almost impossible hai. Yeh zaroor socho — billions of snowflakes girte hain, aur ek bhi same nahi. Aur tum bhi is duniya mein exactly ek ho. Koi doosra tum nahi ho. Kabhi nahi tha."
         ),
     ],
     "food": [
         (
-            "Strawberry technically berry nahi hai — Banana aur Avocado berry hain!",
-            "Strawberry berry nahi? Science ne sabki knowledge tod di!",
-            "Botanical definition sunoge toh dimag ghoom jayega. Strawberry technically berry nahi hai — yeh actually ek accessory fruit hai. Lekin botanically — banana ek berry hai. Avocado ek berry hai. Watermelon bhi ek berry hai. Aur tomato bhi! Berry ki definition hai ki single flower se develop ho aur seeds andar hon. Strawberry ke seeds bahar hote hain — isliye berry nahi. Science ne humari saari childhood knowledge tod di. Comment mein batao kya soch rahe ho!"
+            "Strawberry berry nahi hai — lekin banana, avocado aur watermelon berry hain!",
+            "Strawberry berry nahi? Science ne saari life ka jhooth pakad liya!",
+            "School mein jo padha tha — bhool jao. Botanical science mein berry ki definition hai — single flower se bane, seeds andar hon. Strawberry ke seeds bahar hote hain — berry nahi hai. Lekin banana? Berry hai. Avocado? Berry hai. Watermelon? Bhi berry hai. Tomato bhi. Yeh science ka official classification hai, koi joke nahi. Kitni cheezon ke naam hi galat hain — yeh toh bas shuruat hai."
         ),
         (
-            "Chocolate Aztecs ki currency thi — Gold se bhi zyada valuable!",
-            "Chocolate paisa tha ek zamane mein — Aztecs ka secret!",
-            "Ek zamane mein chocolate khaana nahi — paisa tha. Aztec civilization mein cacao beans currency ke roop mein use hote the. Ek turkey sirf 100 cacao beans mein milta tha. Spanish explorers jab Mexico aaye, unhone gold dhundha — lekin locals cacao ko zyada valuable samajhte the. Aaj chocolate ek trillion dollar industry hai. Sochna hai — aaj ki kaunsi cheez future mein currency ban sakti hai? Interesting thought hai na! Comment karo!"
+            "Aztecs mein chocolate paisa tha — ek turkey sirf 100 cacao beans mein milti thi!",
+            "Chocolate paisa tha ek zamane mein — aur log gold se zyada isko chahte the!",
+            "Ek waqt tha jab chocolate khaate nahi the — kharchte the. Aztec empire mein cacao beans actual currency tha. Ek turkey 100 beans mein milti thi. Spanish log Mexico aaye, gold dhoondha — lekin locals zyada cacao chahte the. Aaj chocolate trillion dollar industry hai. Ek simple seed jo currency bana, phir luxury bana, phir addiction bana. Kya pata kal kaunsi cheez aisi ho jaaye — crypto ki tarah?"
         ),
         (
-            "Gajar pehle purple thi — Dutch ne orange colour 17th century mein banaya!",
-            "Orange gajar sirf 400 saal purani hai — pehle purple thi!",
-            "Aaj hum jis orange gajar ko normal samajhte hain — woh actually 17th century ki invention hai. Original wild carrots purple, white, aur yellow hoti thin. Dutch farmers ne orange gajar selectively breed ki — apne ruler William of Orange ko tribute dene ke liye. Orange unka royal color tha. Ek political statement jo ab duniya bhar mein spread ho gaya. Hum sochte hain gajar toh hamesha se orange thi. History kitni interesting hai yaar! Share karo!"
+            "Gajar pehle purple hoti thi — Dutch ne sirf apne king ko impress karne ke liye orange banaya!",
+            "Orange gajar sirf 400 saal purani invention hai — pehle purple thi!",
+            "Jo orange gajar aaj normal lagti hai — woh ek political decision tha. Original gajar purple, white, yellow hoti thi. Dutch farmers ne 17th century mein orange gajar selectively breed ki — apne ruler William of Orange ko tribute dene ke liye. Ek royal colour jo ab duniya bhar ke kitchens mein hai. Ek farmer ka political gesture — aur aaj hum sochte hain gajar toh orange hi hoti hai. History kitni sly hai."
         ),
     ],
     "metal": [
         (
-            "Gallium haath mein rakhne se pighal jaata hai — Yeh real metal hai!",
-            "Haath mein dharo toh pighal jayega — yeh metal hai bhai!",
-            "Gallium dekha hai kabhi? Yeh ek metal hai jo almost solid rehta hai — lekin haath mein pakdo toh pighal jaata hai. Melting point sirf 29.8 degree Celsius hai — human body temperature 37 degree hai. Isliye literally haath mein rakhne se liquid ban jaata hai. Aur cool part — yeh non-toxic hai, safe hai touch karne ke liye. Scientists isko liquid metal robots ke liye study kar rahe hain. Terminator real ho sakta hai future mein! Mind-blowing hai na!"
+            "Gallium metal haath mein rakhte hi pighal jaata hai — aur yeh bilkul safe hai!",
+            "Haath ki garmi se pighal jaane wala metal exist karta hai — dekho toh sahi!",
+            "Ek metal hai jo haath mein rakhte hi pighal jaata hai — literally. Gallium ka melting point sirf 29.8 degree hai. Tumhara body temperature 37 degree hai. Haath mein rakhte hi liquid ban jaata hai. Solid tha — ek second mein liquid. Aur toxic nahi hai, safe hai. Scientists is par liquid metal robots ke experiments kar rahe hain. Terminator wali technology actually develop ho rahi hai — right now."
         ),
         (
-            "Duniya ka saara gold sirf saade teen Olympic pools mein samayega!",
-            "Duniya ka saara gold — sirf 3 swimming pools bhar — itna rare hai!",
-            "Perspective changing fact suno. Humans ne history mein total 197,000 tonnes gold mine kiya hai. Itna saara gold agar ek jagah rakho toh sirf saade teen Olympic swimming pools fill honge. Itna rare hai gold. Aur interesting baat — zyaada gold actually asteroids se aaya hai. Earth ke core mein aur bhi gold hai — lekin itna deep hai ki kabhi nahi nikal sakte. Aur phir bhi hum iske liye wars ladte hain. Perspective amazing hai na bhai!"
+            "Poori history ka saara gold sirf saade teen Olympic pools mein samayega — itna rare hai!",
+            "Saari duniya ka gold — sirf 3 pools bhar — aur hum iske liye wars ladte hain!",
+            "Poori human history mein jo gold mina gaya — sab ek jagah rakho — sirf saade teen Olympic swimming pools fill honge. Bas. Itna kam. Itna rare. Aur interesting baat — wo gold actually asteroids se aaya hai Earth par. Earth ke core mein aur bhi hai — lekin itna deep hai ki kabhi nahi nikal sakte. Itni rare cheez ke liye wars hue, empires gire. Yeh perspective bahut kuch bol deta hai humari priorities ke baare mein."
         ),
         (
-            "Aerogel 99.8% sirf hawa hai — Phir bhi solid material hai yeh!",
-            "Dekho toh smoke lagti hai — chuo toh solid nikle — Aerogel!",
-            "NASA ka favourite material sunna chahoge? Aerogel — dekh ke lagta hai dhuan hai, lekin touch karo toh solid hai. 99.8 percent air aur sirf 0.2 percent silica. Ek kilogram aerogel ek football field jaisi area cover kar sakta hai. Itna insulating hai ki blowtorch ke neeche ek phool rakh do aerogel ke through — phool nahi jalayi. Mars rovers mein yeh use hota hai. Scientists isse future space suits mein use karna chahte hain. Future is here yaar!"
+            "Aerogel 99.8% sirf hawa hai — phir bhi blowtorch ki aag rok leta hai!",
+            "Dhuan lagta hai — solid hai — aag rok leta hai — yeh Aerogel hai!",
+            "Dekho toh dhuan lagta hai. Chuo toh solid nikle. Aur blowtorch ki seedhi aag ke neeche rakh do — dusri taraf phool nahi jalayta. Yeh Aerogel hai. 99.8 percent sirf air, baaki silica. Ek kilo se ek football field cover ho sakta hai. NASA iska use karta hai Mars rovers mein. Future mein space suits mein hoga. Yeh material lagbhag kisi superhero movie se liya hua lagta hai — lekin real hai, ekdum real."
         ),
     ],
 }

@@ -17,7 +17,7 @@ from pathlib import Path
 SEED = 42
 
 VIDEO_FPS      = 24   # LTX native fps
-VIDEO_DURATION = 8    # seconds per clip (LTX max is 10s)
+VIDEO_DURATION = 10   # seconds per clip (LTX max is 10s)
 
 # LTX portrait output: 576 wide × 1024 tall = 9:16 for Shorts
 LTX_WIDTH  = 576

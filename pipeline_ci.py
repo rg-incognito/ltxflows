@@ -35,7 +35,7 @@ TTS_VOLUME      = 1.2    # Hindi narration at full
 MAX_DURATION    = 30
 CLIP_DURATION   = 10     # seconds — LTX max is 10s
 
-TTS_VOICE = "hi-IN-NeerjaExpressiveNeural"
+TTS_VOICE = "hi-IN-SwaraNeural"
 TTS_DELAY = 0.9
 
 TG_TOKEN       = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -159,7 +159,7 @@ def generate_tts(tts_text, output_path, tracker=None):
                 json={
                     "inputs": [tts_text],
                     "target_language_code": "hi-IN",
-                    "speaker": "kalpana",
+                    "speaker": "anushka",
                     "pitch": 0,
                     "pace": 1.1,
                     "loudness": 1.5,

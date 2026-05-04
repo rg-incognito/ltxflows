@@ -1,19 +1,13 @@
 name: LTX Hindi Shorts Pipeline
 
 on:
+  # Schedule disabled — Instagram only (no views on YouTube)
   workflow_dispatch:
     inputs:
       force_run:
         description: 'Force run even if daily limit reached'
         required: false
         default: 'false'
-  schedule:
-    - cron: '0 3 * * *'
-    - cron: '0 6 * * *'
-    - cron: '0 9 * * *'
-    - cron: '0 12 * * *'
-    - cron: '0 15 * * *'
-    - cron: '0 18 * * *'
 
 jobs:
   post-short:
